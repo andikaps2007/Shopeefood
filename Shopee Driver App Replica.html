@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee Driver Replica</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #202020;
+        }
+        .shopee-orange {
+            color: #ee4d2d;
+        }
+        .bg-shopee {
+            background-color: #ee4d2d;
+        }
+        .border-shopee {
+            border-color: #ee4d2d;
+        }
+        /* Custom scrollbar for horizontal chips */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen p-0 sm:p-4">
+
+    <!-- Mobile Frame Container -->
+    <div class="w-full max-w-md bg-gray-50 h-screen sm:h-[844px] sm:rounded-3xl shadow-2xl relative overflow-hidden flex flex-col">
+
+        <!-- ================= PAGE 1: MAIN HOME PAGE ================= -->
+        <div id="page-main" class="flex flex-col h-full bg-gray-100 absolute inset-0 transition-transform duration-300 z-10">
+            <!-- Header -->
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleSidebar(true)">
+                    <img src="https://placehold.co/100x100/ee4d2d/ffffff?text=AP" alt="Profile" class="w-10 h-10 rounded-full object-cover border border-gray-300">
+                    <div>
+                        <h2 class="font-bold text-gray-900 text-sm flex items-center">
+                            ANDIKA PERMANA... <i class="fa-solid fa-chevron-right text-xs ml-1 text-gray-400"></i>
+                        </h2>
+                        <p class="text-xs text-gray-500">Status kerja tidak aktif</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3 text-xs text-gray-700">
+                    <div class="flex items-center space-x-1">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span class="font-semibold">5.00</span>
+                    </div>
+                    <div class="text-gray-300">|</div>
+                    <div class="flex items-center space-x-1">
+                        <i class="fa-solid fa-chart-simple text-amber-500"></i>
+                        <span class="font-semibold">0.0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Header -->
+            <div class="bg-white grid grid-cols-2 text-center text-sm font-medium border-b border-gray-200">
+                <div class="py-3 text-gray-500 cursor-pointer hover:text-gray-800" onclick="switchMainTab('heatmap')">Heatmap</div>
+                <div class="py-3 shopee-orange font-semibold relative cursor-pointer" onclick="switchMainTab('pesanan')">
+                    Daftar Pesanan
+                    <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-shopee"></div>
+                </div>
+            </div>
+
+            <!-- Content Body: Account Frozen / Suspended -->
+            <div class="flex-1 flex flex-col items-center justify-center p-6 text-center bg-gray-50">
+                <div class="w-48 h-48 mb-6 relative flex items-center justify-center bg-blue-50 rounded-full">
+                    <!-- Illustration placeholder / vector representation -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-90">
+                        <i class="fa-solid fa-motorcycle text-6xl text-indigo-900"></i>
+                    </div>
+                    <div class="absolute top-8 right-12 w-8 h-8 bg-amber-300 rounded-full opacity-80"></div>
+                </div>
+                
+                <p class="text-sm text-gray-800 leading-relaxed px-4">
+                    Akun anda dibekukan karena tidak ada aktivitas pengantaran selama 30 hari terakhir silahkan hubungi pihak shopee untuk mengaktifkan kembali akun anda, Call Center 1500702 atau kirim email ke <span class="text-blue-600 underline">shopee@gmail.com</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= SIDEBAR MENU (DRAWER) ================= -->
+        <div id="sidebar-overlay" class="absolute inset-0 bg-black/50 z-40 hidden transition-opacity duration-300" onclick="toggleSidebar(false)"></div>
+        <div id="sidebar-menu" class="absolute top-0 bottom-0 left-0 w-4/5 max-w-xs bg-white z-50 transform -translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-gray-100 flex items-center space-x-3 bg-gray-50">
+                <img src="https://placehold.co/100x100/ee4d2d/ffffff?text=AP" alt="Profile" class="w-12 h-12 rounded-full object-cover">
+                <div class="overflow-hidden">
+                    <h3 class="font-bold text-gray-900 text-sm truncate">ANDIKA PERMANA...</h3>
+                </div>
+            </div>
+
+            <!-- Sidebar Items -->
+            <div class="flex-1 overflow-y-auto py-2">
+                <div class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+                    <span class="text-sm text-gray-800 font-medium">Status Kerja</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer">
+                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-shopee"></div>
+                    </label>
+                </div>
+                
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Pesanan Searah</span>
+                    <span class="bg-shopee text-white text-[10px] px-2 py-0.5 rounded-full font-semibold">Baru</span>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Hub</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Notifikasi</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" onclick="navigateTo('wallet'); toggleSidebar(false); return false;" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800 font-medium">
+                    <span>Saldo Saya</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Insentif</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span class="flex items-center">Poin Penalti <span class="ml-2 bg-shopee text-white text-[10px] px-2 py-0.5 rounded-full font-semibold">Baru</span></span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Riwayat Pesanan</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>PuJOSera</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span class="flex items-center">Ajak Teman Baru <span class="ml-2 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-semibold">Hadiah</span></span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Akademi Mitra Pengemudi</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <a href="#" class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-sm text-gray-800">
+                    <span>Bantuan</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2: SALDO SAYA (WALLET) ================= -->
+        <div id="page-wallet" class="flex flex-col h-full bg-gray-100 absolute inset-0 translate-x-full transition-transform duration-300 z-20">
+            <!-- Header -->
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-arrow-left text-lg cursor-pointer text-gray-800" onclick="navigateTo('main')"></i>
+                    <h1 class="font-bold text-gray-900 text-base">Saldo Saya</h1>
+                </div>
+                <i class="fa-regular fa-circle-question text-lg shopee-orange cursor-pointer" onclick="showToast('Informasi Saldo ShopeePay')"></i>
+            </div>
+
+            <!-- Content Wallet -->
+            <div class="p-4 space-y-4">
+                <!-- ShopeePay Card -->
+                <div class="bg-gradient-to-r from-orange-500 to-rose-500 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-sm font-medium opacity-90">ShopeePay</span>
+                        <i class="fa-solid fa-chevron-right text-sm opacity-80"></i>
+                    </div>
+                    <div class="text-3xl font-bold tracking-wide mb-6">
+                        Rp24.088
+                    </div>
+                    <!-- Action Buttons inside card -->
+                    <div class="grid grid-cols-2 divide-x divide-orange-400/50 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
+                        <button onclick="showToast('Fitur Isi Saldo')" class="py-3 flex items-center justify-center space-x-2 text-sm font-medium hover:bg-black/10 transition">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span>Isi Saldo</span>
+                        </button>
+                        <button onclick="showToast('Fitur Tarik Saldo')" class="py-3 flex items-center justify-center space-x-2 text-sm font-medium hover:bg-black/10 transition">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                            <span>Tarik Saldo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Menu List -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div onclick="showToast('Menu Transaksi')" class="px-4 py-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <span class="text-sm font-medium text-gray-800">Transaksi</span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                    </div>
+                    <div onclick="navigateTo('earnings')" class="px-4 py-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <span class="text-sm font-medium text-gray-800">Rangkuman Pendapatan</span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                    </div>
+                    <div onclick="showToast('Menu Catatan Pembayaran')" class="px-4 py-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer">
+                        <span class="text-sm font-medium text-gray-800">Catatan Pembayaran</span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: RANGKUMAN PENDAPATAN (EARNINGS) ================= -->
+        <div id="page-earnings" class="flex flex-col h-full bg-gray-100 absolute inset-0 translate-x-full transition-transform duration-300 z-30">
+            <!-- Header -->
+            <div class="bg-white px-4 py-3 flex items-center space-x-3 border-b border-gray-200">
+                <i class="fa-solid fa-arrow-left text-lg cursor-pointer text-gray-800" onclick="navigateTo('wallet')"></i>
+                <h1 class="font-bold text-gray-900 text-base">Rangkuman Pendapatan</h1>
+            </div>
+
+            <!-- Tabs: Hari / Minggu -->
+            <div class="bg-white grid grid-cols-2 text-center text-sm font-medium border-b border-gray-200">
+                <div class="py-3 text-gray-500 cursor-pointer" onclick="showToast('Tab Hari dipilih')">Hari</div>
+                <div class="py-3 shopee-orange font-semibold relative cursor-pointer">
+                    Minggu
+                    <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-shopee"></div>
+                </div>
+            </div>
+
+            <!-- Date Range Horizontal Selector -->
+            <div class="bg-white py-3 px-2 flex space-x-2 overflow-x-auto no-scrollbar border-b border-gray-200" id="week-chips-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Earnings Body Content -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-6">
+                <!-- Total Income Card -->
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm space-y-2">
+                    <p class="text-sm text-gray-600 font-medium">Total Pendapatan yang Diterima</p>
+                    <div class="text-3xl font-bold text-gray-900">
+                        Rp <span id="lbl-total-income">0</span>
+                    </div>
+                    <p class="text-xs text-gray-500"><span id="lbl-total-orders">0</span> pesanan selesai</p>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-gray-800">Grafik Pendapatan yang Diterima</h3>
+                        <span class="text-xs text-gray-400">(Rp)</span>
+                    </div>
+
+                    <!-- Visual Chart Bars -->
+                    <div class="h-40 flex items-end justify-between pt-6 pb-2 px-2 border-b border-gray-100" id="chart-bars-container">
+                        <!-- Bars populated via JS -->
+                    </div>
+
+                    <!-- Day Labels -->
+                    <div class="grid grid-cols-7 text-center text-[10px] text-gray-500 font-medium" id="chart-labels-container">
+                        <!-- Labels populated via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Toast Notification Component (Instead of alert()) -->
+        <div id="toast" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900/90 text-white text-xs px-4 py-2.5 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex items-center space-x-2">
+            <i class="fa-solid fa-circle-info shopee-orange"></i>
+            <span id="toast-message">Pesan notifikasi</span>
+        </div>
+
+    </div>
+
+    <script>
+        // Data rentang minggu & hari untuk Rangkuman Pendapatan
+        const weeksData = [
+            {
+                id: 'w1',
+                labelMonth: 'Sep',
+                range: '21 - 27',
+                days: [
+                    { day: 'Sen', date: '21 Sep', income: 0 },
+                    { day: 'Sel', date: '22', income: 0 },
+                    { day: 'Rab', date: '23', income: 0 },
+                    { day: 'Kam', date: '24', income: 0 },
+                    { day: 'Jum', date: '25', income: 0 },
+                    { day: 'Sab', date: '26', income: 0 },
+                    { day: 'Min', date: '27 Sep', income: 0 }
+                ]
+            },
+            {
+                id: 'w2',
+                labelMonth: 'Sep - Okt',
+                range: '28 - 4',
+                days: [
+                    { day: 'Sen', date: '28 Sep', income: 0 },
+                    { day: 'Sel', date: '29', income: 0 },
+                    { day: 'Rab', date: '30', income: 0 },
+                    { day: 'Kam', date: '1 Okt', income: 0 },
+                    { day: 'Jum', date: '2', income: 0 },
+                    { day: 'Sab', date: '3', income: 0 },
+                    { day: 'Min', date: '4 Okt', income: 0 }
+                ]
+            },
+            {
+                id: 'w3',
+                labelMonth: 'Okt',
+                range: '5 - 11',
+                days: [
+                    { day: 'Sen', date: '5 Okt', income: 0 },
+                    { day: 'Sel', date: '6', income: 0 },
+                    { day: 'Rab', date: '7', income: 0 },
+                    { day: 'Kam', date: '8', income: 0 },
+                    { day: 'Jum', date: '9', income: 0 },
+                    { day: 'Sab', date: '10', income: 0 },
+                    { day: 'Min', date: '11 Okt', income: 0 }
+                ]
+            },
+            {
+                id: 'w4',
+                labelMonth: 'Okt',
+                range: '12 - 14',
+                days: [
+                    { day: 'Sen', date: '12 Okt', income: 0 },
+                    { day: 'Sel', date: '13', income: 0 },
+                    { day: 'Rab', date: '14', income: 0 },
+                    { day: 'Kam', date: '15', income: 0 },
+                    { day: 'Jum', date: '16', income: 0 },
+                    { day: 'Sab', date: '17', income: 0 },
+                    { day: 'Min', date: '18 Okt', income: 0 }
+                ],
+                activeByDefault: true
+            }
+        ];
+
+        let currentActiveWeekId = 'w4';
+
+        // Navigasi Antar Halaman Utama / Wallet / Earnings
+        function navigateTo(pageName) {
+            const pageMain = document.getElementById('page-main');
+            const pageWallet = document.getElementById('page-wallet');
+            const pageEarnings = document.getElementById('page-earnings');
+
+            if (pageName === 'main') {
+                pageMain.style.transform = 'translateX(0)';
+                pageWallet.style.transform = 'translateX(100%)';
+                pageEarnings.style.transform = 'translateX(100%)';
+            } else if (pageName === 'wallet') {
+                pageMain.style.transform = 'translateX(-100%)';
+                pageWallet.style.transform = 'translateX(0)';
+                pageEarnings.style.transform = 'translateX(100%)';
+            } else if (pageName === 'earnings') {
+                pageMain.style.transform = 'translateX(-100%)';
+                pageWallet.style.transform = 'translateX(-100%)';
+                pageEarnings.style.transform = 'translateX(0)';
+                renderEarningsData(currentActiveWeekId);
+            }
+        }
+
+        // Buka / Tutup Sidebar Menu (Drawer)
+        function toggleSidebar(open) {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    sidebar.style.transform = 'translateX(0)';
+                }, 10);
+            } else {
+                sidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Ganti Tab Utama (Heatmap / Daftar Pesanan)
+        function switchMainTab(tab) {
+            if (tab === 'heatmap') {
+                showToast('Menampilkan Peta Heatmap');
+            } else {
+                showToast('Menampilkan Daftar Pesanan');
+            }
+        }
+
+        // Render Chip Tanggal dan Grafik di Halaman Rangkuman Pendapatan
+        function renderWeekChips() {
+            const container = document.getElementById('week-chips-container');
+            container.innerHTML = '';
+
+            weeksData.forEach(week => {
+                const isActive = week.id === currentActiveWeekId;
+                const chip = document.createElement('div');
+                chip.className = `flex-shrink-0 px-3 py-2 rounded-xl text-center cursor-pointer border transition-all ${
+                    isActive 
+                        ? 'bg-orange-50 border-shopee text-shopee font-semibold shadow-sm' 
+                        : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                }`;
+                chip.innerHTML = `
+                    <div class="text-[10px] text-gray-500">${week.labelMonth}</div>
+                    <div class="text-xs font-bold">${week.range}</div>
+                `;
+                chip.onclick = () => {
+                    currentActiveWeekId = week.id;
+                    renderWeekChips();
+                    renderEarningsData(week.id);
+                };
+                container.appendChild(chip);
+            });
+        }
+
+        function renderEarningsData(weekId) {
+            const week = weeksData.find(w => w.id === weekId);
+            if (!week) return;
+
+            // Update Total Income
+            const totalIncome = week.days.reduce((acc, curr) => acc + curr.income, 0);
+            document.getElementById('lbl-total-income').innerText = totalIncome.toLocaleString('id-ID');
+            document.getElementById('lbl-total-orders').innerText = week.days.filter(d => d.income > 0).length * 0; // 0 pesanan selesai sesuai contoh
+
+            // Render Chart Bars & Labels
+            const barsContainer = document.getElementById('chart-bars-container');
+            const labelsContainer = document.getElementById('chart-labels-container');
+            
+            barsContainer.innerHTML = '';
+            labelsContainer.innerHTML = '';
+
+            week.days.forEach(d => {
+                // Bar element
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'flex flex-col items-center h-full justify-end flex-1';
+                barWrapper.innerHTML = `
+                    <div class="w-1.5 bg-shopee/20 rounded-t-full transition-all duration-300" style="height: 4px;"></div>
+                `;
+                barsContainer.appendChild(barWrapper);
+
+                // Label element
+                const labelDiv = document.createElement('div');
+                labelDiv.className = 'truncate px-0.5';
+                labelDiv.innerText = `${d.day}\n${d.date}`;
+                labelsContainer.appendChild(labelDiv);
+            });
+        }
+
+        // Custom Toast Notification Pengganti Alert()
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        // Inisialisasi awal saat halaman dimuat
+        window.onload = function() {
+            renderWeekChips();
+        };
+    </script>
+</body>
+</html>
